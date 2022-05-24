@@ -14,16 +14,16 @@ import javax.servlet.http.HttpServletResponse;
 import com.ecommerce.connection.DBConnection;
 
 /**
- * Servlet implementation class UpdateWithParam
+ * Servlet implementation class DeleteCustomer
  */
-@WebServlet("/UpdateWithParam")
-public class UpdateWithParam extends HttpServlet {
+@WebServlet("/DeleteCustomer")
+public class DeleteCustomer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UpdateWithParam() {
+    public DeleteCustomer() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,53 +32,54 @@ public class UpdateWithParam extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Update with Parameter
 		
-		try {
-			
-			
-			PrintWriter out = response.getWriter();
-			
-			//load data from config
-			Properties properties = new Properties();
-			properties.load(getServletContext().getResourceAsStream("/config.properties"));
-			
-			//Get Connection
-			DBConnection conn = new DBConnection(properties.getProperty("url"), properties.getProperty("username"), properties.getProperty("password"));
-			
-			//get query
-			String query = "Update customer SET name = ? where id = ?";
-			
-			//Create statement
-			PreparedStatement pstm = conn.getConnection().prepareStatement(query);
-			pstm.setString(1, "Priya");
-			pstm.setInt(2, 4);
-			
-			//execute query
-			
-			int noOfRows = pstm.executeUpdate();
-			
-			//Print response
-			
-			out.println("<html><body>");
-			if(noOfRows>0) {
-				out.println("<h1> "+noOfRows +" Rows Affected !!! </h1>");
-			}else {
-				out.println("<h1> Data cannot be added</h1>");
-			}
-			out.println("</body></html>");
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		response.sendRedirect("deletecustomer.html");
+		return;
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		// Delete customer
+		
+		try {
+			
+			String name = request.getParameter("name");
+			PrintWriter out = response.getWriter();
+			
+			//Load data from config
+			Properties properties = new Properties();
+			properties.load(getServletContext().getResourceAsStream("/config.properties"));
+			
+			//get connection
+			DBConnection conn = new DBConnection(properties.getProperty("url"), properties.getProperty("username"), properties.getProperty("password"));
+			
+			//Write query
+			
+			String query = "Delete from customer where name = ?";
+			
+			//create statement
+			
+			PreparedStatement pstm = conn.getConnection().prepareStatement(query);
+			pstm.setString(1, name);
+			
+			//Execute query
+			int noOfRows = pstm.executeUpdate();
+			System.out.println(noOfRows);
+			
+			//Print Response
+			
+			out.println("<html><body>");
+			if(noOfRows>0) {
+				out.println("<h1>" + noOfRows+ "  Rows affected !! </h1>");
+			}else {
+				out.println("<h1> Customer cannot be deleted!!!</h1>");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

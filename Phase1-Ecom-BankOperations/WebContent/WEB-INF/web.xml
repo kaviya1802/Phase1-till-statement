@@ -50,4 +50,14 @@
   <url-pattern>/update-with-parm</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  <servlet-name>DeleteCustomer</servlet-name>
+  <servlet-class>com.ecommerce.customers.DeleteCustomer</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>DeleteCustomer</servlet-name>
+  <url-pattern>/delete-cust</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

@@ -60,4 +60,13 @@
   <url-pattern>/delete-cust</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  <servlet-name>add_employee</servlet-name>
+  <servlet-class>com.ecommerce.employee.add_employee</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>add_employee</servlet-name>
+  <url-pattern>/add-emp</url-pattern>
+  </servlet-mapping>
 </web-app>
